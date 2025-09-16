@@ -35,8 +35,8 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
-    <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-2xl">
+<body class="bg-gray-100 flex flex-col items-center p-4">
+    <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-2xl my-8">
         <h1 class="text-3xl font-bold text-center text-indigo-700 mb-6">
             Inner Leader Action Figure Generator
         </h1>
@@ -141,7 +141,7 @@
             const userPrompt = `A high-quality 3D render of a stylized action figure in a detailed, realistic toy packaging box. The packaging is a clean, professional design, but with a blank space where the text and logo would go. The action figure inside the box is a ${gender} leader with a core strength represented by a visual icon: ${strength}. The packaging also includes a small, separate character representing the Nemesis/Inner Critic: ${nemesis}. The mission statement "${mission}" is part of the scene on the back of the box, rendered as part of a miniature graphic novel scene. The overall aesthetic is similar to an inspirational toy or collectible, with polished, soft lighting, and a clean studio background. Do not include any text or logos on the front of the packaging.`;
 
             const payload = { instances: { prompt: userPrompt }, parameters: { "sampleCount": 1 } };
-            const apiKey = "AIzaSyDnQfAVnhDGB_dC8rVe1korqegz572scUk";
+            const apiKey = "AIzaSyBXN37T9QwhHDFJ7r4XkvZBBkizUiHu9R8";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
 
             try {
