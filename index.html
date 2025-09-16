@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inner Leader Action Figure Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .image-overlay-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+        }
+        .image-overlay-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .image-overlay-container .text-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            text-align: center;
+            padding: 0.5rem;
+            font-weight: 900;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            line-height: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-2xl">
+        <h1 class="text-3xl font-bold text-center text-indigo-700 mb-6">
+            Inner Leader Action Figure Generator
+        </h1>
+        <p class="text-center text-gray-700 mb-8">
+            Fill out the form below and click the button to generate a custom action figure illustration based on your leadership identity.
+        </p>
+
+        <form id="promptForm" class="space-y-6">
+            <div>
+                <label for="gender" class="block text-gray-800 font-bold mb-2">Gender</label>
+                <input type="text" id="gender" name="gender" placeholder="male or female" required
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200">
+            </div>
+
+            <div>
+                <label for="name" class="block text-gray-800 font-bold mb-2">Your Name</label>
+                <input type="text" id="name" name="name" placeholder="Your Name" required
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200">
+            </div>
+
+            <div>
+                <label for="motivation" class="block text-gray-800 font-bold mb-2">Core Motivation Type</label>
+                <input type="text" id="motivation" name="motivation" placeholder="e.g., The Architect" required
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200">
+            </div>
+
+            <div>
+                <label for="identity" class="block text-gray-800 font-bold mb-2">Leadership Identity</label>
+                <input type="text" id="identity" name="identity" placeholder="e.g., Visionary, Catalyst, Guardian" required
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200">
+            </div>
+
+            <div>
+                <label for="strength" class="block text-gray-800 font-bold mb-2">Core Strength</label>
+                <input type="text" id="strength" name="strength" placeholder="e.g., Empathy, Strategic Thinking" required
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200">
+            </div>
+
+            <div>
+                <label for="nemesis" class="block text-gray-800 font-bold mb-2">Nemesis/Inner Critic</label>
+                <input type="text" id="nemesis" name="nemesis" placeholder="e.g., Doubt, Impatience" required
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200">
+            </div>
+
+            <div>
+                <label for="mission" class="block text-gray-800 font-bold mb-2">Leadership Mission</label>
+                <input type="text" id="mission" name="mission" placeholder="e.g., To empower others to find their voice" required
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200">
+            </div>
+
+            <div class="flex justify-center mt-8">
+                <button type="button" id="generateButton"
+                        class="px-8 py-3 bg-indigo-600 text-white font-semibold rounded-full shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105 duration-200">
+                    Generate Image
+                </button>
+            </div>
+        </form>
+
+        <div id="statusMessage" class="mt-6 text-center text-sm font-medium hidden"></div>
+
+        <div id="imageContainer" class="mt-8 flex justify-center hidden">
+            <div class="image-overlay-container">
+                <img id="generatedImage" src="" alt="Generated Inner Leader Action Figure">
+                <div class="text-overlay">
+                    <p id="name-overlay" class="text-2xl sm:text-3xl lg:text-4xl"></p>
+                    <p id="tagline-overlay" class="text-xl sm:text-2xl lg:text-3xl font-light"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <p class="mt-8 text-center text-gray-600 text-sm">Created with Gemini, Coachability Inner Leader Action Figure activity.</p>
+
+    <script>
+        document.getElementById('generateButton').addEventListener('click', async () => {
+            const gender = document.getElementById('gender').value.trim();
+            const name = document.getElementById('name').value.trim();
+            const motivation = document.getElementById('motivation').value.trim();
+            const identity = document.getElementById('identity').value.trim();
+            const strength = document.getElementById('strength').value.trim();
+            const nemesis = document.getElementById('nemesis').value.trim();
+            const mission = document.getElementById('mission').value.trim();
+            
+            const statusMessage = document.getElementById('statusMessage');
+            const imageContainer = document.getElementById('imageContainer');
+            const generatedImage = document.getElementById('generatedImage');
+            const nameOverlay = document.getElementById('name-overlay');
+            const taglineOverlay = document.getElementById('tagline-overlay');
+            
+            if (!gender || !name || !motivation || !identity || !strength || !nemesis || !mission) {
+                statusMessage.textContent = 'Please fill out all fields.';
+                statusMessage.className = 'mt-6 text-center text-sm font-medium text-red-500';
+                statusMessage.style.display = 'block';
+                return;
+            }
+
+            statusMessage.textContent = 'Generating your action figure... this may take a moment.';
+            statusMessage.className = 'mt-6 text-center text-sm font-medium text-indigo-500';
+            statusMessage.style.display = 'block';
+            imageContainer.style.display = 'none';
+
+            const userPrompt = `A high-quality 3D render of a stylized action figure in a detailed, realistic toy packaging box. The packaging is a clean, professional design, but with a blank space where the text and logo would go. The action figure inside the box is a ${gender} leader with a core strength represented by a visual icon: ${strength}. The packaging also includes a small, separate character representing the Nemesis/Inner Critic: ${nemesis}. The mission statement "${mission}" is part of the scene on the back of the box, rendered as part of a miniature graphic novel scene. The overall aesthetic is similar to an inspirational toy or collectible, with polished, soft lighting, and a clean studio background. Do not include any text or logos on the front of the packaging.`;
+
+            const payload = { instances: { prompt: userPrompt }, parameters: { "sampleCount": 1 } };
+            const apiKey = "AIzaSyDnQfAVnhDGB_dC8rVe1korqegz572scUk";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API call failed with status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
+                    const base64Data = result.predictions[0].bytesBase64Encoded;
+                    const imageUrl = `data:image/png;base64,${base64Data}`;
+                    generatedImage.src = imageUrl;
+                    imageContainer.style.display = 'flex';
+                    statusMessage.textContent = 'Image generated successfully!';
+                    statusMessage.className = 'mt-6 text-center text-sm font-medium text-green-600';
+                    
+                    nameOverlay.textContent = name;
+                    taglineOverlay.textContent = `The ${identity}`;
+
+                } else {
+                    throw new Error('No image data received from the API.');
+                }
+            } catch (err) {
+                console.error('Error generating image:', err);
+                statusMessage.textContent = 'An error occurred. Please try again later.';
+                statusMessage.className = 'mt-6 text-center text-sm font-medium text-red-500';
+                imageContainer.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
